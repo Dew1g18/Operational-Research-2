@@ -1,5 +1,7 @@
 import numpy as np
 
+
+#The following are matrices used to test my methods (A1, A2 & A3)
 A1 = [
     [-1,4,-1,-1],
     [-1,-1,7,10],
@@ -22,19 +24,16 @@ A3 = [
     [-1, -1, -1, -1, -1, 5],
     [-1, -1, -1, -1, -1, -1]]
 
-def EET(A, i):
-    # i-=1  #Modified i as index starts at 0 and nodes start at 1  (now modified inline to save lines lmao)
+def EET(A, i):# i-=1  #Modified i as index starts at 0 and nodes start at 1  (now modified inline to save lines lmao)
     smallX = -1,0 ## distance, node
     for x in range (0, len(A[i-1])-1):
         if A[x][i-1]>=smallX[0] and A[x][i-1]!=-1: smallX=A[x][i-1],x+1
     if smallX[1] == 0: return 0 # This is for the first ordinate as the method will run through
     else: return EET(A, smallX[1]) + smallX[0] # recursively finds the next in the list to cumulatively build EET
-
-
     ##returns the Earliest expected arrival of the node i, from the matrix A
 
-def LET(A,i):
-    # i-=1 #Modified i as index starts at 0 and nodes start at 1  (now modified inline to save lines lmao)
+
+def LET(A,i):# i-=1 #Modified i as index starts at 0 and nodes start at 1  (now modified inline to save lines lmao)
     smallLET = np.Infinity, 0 #Distance , node
     outNodes = []
     for x in range (0, len(A[i-1])):
@@ -46,14 +45,13 @@ def LET(A,i):
             smallLET = (dist), x+1 # Reassigning the LET value when conditions are met.
     if smallLET[1]==0: return EET(A,i)
     else: return smallLET[0]
-
     ##returns the Latest expected arrival of i from A
 
 
 ## As we have been instructed to use as few lines as possible, this has meant that I have not included any
 ## error handling and assumed perfect input for each of the given methods.
 def TF(A, i, j):
-    return LET(A,j) - EET(A, i) - A[i-1][j-1] #Directly from the formula in the notes
+    return LET(A,j) - EET(A,i) - A[i-1][j-1] #Directly from the formula in the notes
 
 
 
